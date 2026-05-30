@@ -22,29 +22,22 @@ define KernelPackage/rtl8188eus
 endef
 
 define Build/Prepare
-    # 下载源码
     $(call Build/Prepare/Default)
-    # 清理之前的编译产物
-    $(MAKE) -C $(PKG_BUILD_DIR) clean || true
+    # 修复 Makefile 以适配 OpenWrt
+    $(SED) 's/KSRC ?= \/lib\/modules\/$$(shell uname -r)\/build/KSRC=$(LINUX_DIR)/g' $(PKG_BUILD_DIR)/Makefile
+    $(SED) 's/KVER ?= $$(shell uname -r)/KVER=$(LINUX_VERSION)/g' $(PKG_BUILD_DIR)/Makefile
+    # 设置平台为 PC 架构
+    $(SED) 's/CONFIG_PLATFORM_I386_PC = n/CONFIG_PLATFORM_I386_PC = y/g' $(PKG_BUILD_DIR)/Makefile
 endef
 
 define Build/Compile
-    @echo "=== Starting compilation ==="
-    @echo "Linux dir: $(LINUX_DIR)"
-    @echo "Build dir: $(PKG_BUILD_DIR)"
-    
-    # 为内核6.6添加必要的编译标志
     $(MAKE) -C $(PKG_BUILD_DIR) \
         ARCH=$(LINUX_KARCH) \
         CROSS_COMPILE=$(TARGET_CROSS) \
         KSRC=$(LINUX_DIR) \
         KVER=$(LINUX_VERSION) \
         CONFIG_PLATFORM_I386_PC=y \
-        CONFIG_POWER_SAVING=n \
-        USER_EXTRA_CFLAGS="-Wno-error=incompatible-pointer-types -Wno-error=address-of-packed-member"
-    
-    @echo "=== Compilation finished ==="
-    @ls -la $(PKG_BUILD_DIR)/*.ko 2>/dev/null || echo "No .ko file found"
+        USER_EXTRA_CFLAGS="-Wno-error=incompatible-pointer-types -Wno-error=address-of-packed-member -Wno-error=array-parameter"
 endef
 
 $(eval $(call KernelPackage,rtl8188eus))
