@@ -43,6 +43,7 @@ jobs:
           docker rmi `docker images -q`
           sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d /usr/local/lib/android
           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
+          sudo add-apt-repository universe
           sudo -E apt-get update
           sudo -E apt-get -y install     binutils bzip2 gawk   git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev    flex   p7zip p7zip-full   libssl-dev texinfo   upx  autoconf automake libtool   swig  qemu-utils
           sudo -E apt-get -y autoremove --purge
