@@ -18,14 +18,14 @@ endef
 
 define Build/Prepare
 	mkdir -p $(PKG_BUILD_DIR)
-	$(CP) ./src/* $(PKG_BUILD_DIR)/
+	$(CP) ./* $(PKG_BUILD_DIR)/  # 复制当前所有文件，而不是src
 endef
 
 define Build/Compile
 	$(MAKE) -C $(LINUX_DIR) \
 		ARCH=$(LINUX_KARCH) \
 		CROSS_COMPILE=$(KERNEL_CROSS_COMPILE) \
-		SUBDIRS=$(PKG_BUILD_DIR) \
+		M=$(PKG_BUILD_DIR) \
 		modules
 endef
 
