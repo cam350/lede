@@ -14,11 +14,11 @@ PKG_BUILD_DIR:=$(KERNEL_BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define KernelPackage/rtl8188eus
-  SUBMENU:=Wireless Drivers
-  TITLE:=Realtek RTL8188EUS USB WiFi driver (aircrack-ng)
-  DEPENDS:=@USB_SUPPORT +kmod-usb-core +kmod-cfg80211 +kmod-mac80211
-  FILES:=$(PKG_BUILD_DIR)/rtl8188eus.ko
-  AUTOLOAD:=$(call AutoProbe,rtl8188eus)
+    SUBMENU:=Wireless Drivers
+    TITLE:=Realtek RTL8188EUS USB WiFi driver (aircrack-ng)
+    DEPENDS:=@USB_SUPPORT +kmod-usb-core +kmod-cfg80211 +kmod-mac80211
+    FILES:=$(PKG_BUILD_DIR)/rtl8188eus.ko
+    AUTOLOAD:=$(call AutoProbe,rtl8188eus)
 endef
 
 define Build/Prepare
