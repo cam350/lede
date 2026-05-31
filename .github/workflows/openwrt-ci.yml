@@ -45,8 +45,9 @@ jobs:
           sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* adoptopenjdk* mysql* php* mongodb* dotnet* moby* snapd* || true
           sudo -E add-apt-repository universe
           sudo -E apt-get update
-          sudo -E apt-get -y install     binutils bzip2 gawk   git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev    flex   p7zip p7zip-full   libssl-dev texinfo   upx  autoconf automake libtool   swig 
+          sudo -E apt-get -y install curl ca-certificates    binutils bzip2 gawk   git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev    flex   p7zip p7zip-full   libssl-dev texinfo   upx  autoconf automake libtool   swig 
           sudo -E apt-get -y install $(curl -fsSL is.gd/depends_ubuntu_2204)
+          sudo -E apt-get -y install $DEPS qemu-utils
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
 
@@ -60,12 +61,7 @@ jobs:
           # ln -s /mnt/openwrt/staging_dir ./staging_dir
 
           df -h
-      - name: Install qemu-img (static)
-        run: |
-          wget -q https://github.com/multiarch/qemu-user-static/releases/download/v7.2.0/qemu-img-x86_64
-          chmod +x qemu-img-x86_64
-          sudo mv qemu-img-x86_64 /usr/local/bin/qemu-img
-          command -v qemu-img
+ 
   
       - name: Update feeds
         run: |
