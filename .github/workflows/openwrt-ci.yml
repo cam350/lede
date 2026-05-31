@@ -60,7 +60,13 @@ jobs:
           # ln -s /mnt/openwrt/staging_dir ./staging_dir
 
           df -h
-
+      - name: Install qemu-img (static)
+        run: |
+          wget -q https://github.com/multiarch/qemu-user-static/releases/download/v7.2.0/qemu-img-x86_64
+          chmod +x qemu-img-x86_64
+          sudo mv qemu-img-x86_64 /usr/local/bin/qemu-img
+          command -v qemu-img
+  
       - name: Update feeds
         run: |
           ./scripts/feeds update -a
